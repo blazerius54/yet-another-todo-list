@@ -1,6 +1,7 @@
 build
 .idea
 node_modules
+ui_build
 .DS_STORE
 .vscode
 .env
