@@ -5,6 +5,7 @@ import TODO_LIST_ABI from '../../build/contracts/TodoList';
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState();
+  const [currentContract, setCurrentContract] = useState();
   const [currentTodoList, setCurrentTodoList] = useState();
 
   const connectToCurrentAccount = async () => {
@@ -13,12 +14,19 @@ const App = () => {
     const todoList = await new web3.eth.Contract(TODO_LIST_ABI.abi, process.env.CONTRACT_ADDRESS);
 
     setCurrentAccount(accounts[0]);
-    setCurrentTodoList(todoList);
+    setCurrentContract(todoList);
   }
 
   const getTodoList = async () => {
-    const taskCount = await currentTodoList.methods.taskCount().call();
-    console.log(taskCount)
+    const taskCount = await currentContract.methods.taskCount().call();
+    const contractTasks = [];
+
+    for(let i = 1; i <= taskCount; i++) {
+      const task = await currentContract.methods.tasks(i).call();
+      contractTasks.push(task.content);
+    }
+
+    setCurrentTodoList(contractTasks);
   }
 
   useEffect(() => {
@@ -26,10 +34,14 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    if (currentAccount && currentTodoList) {
+    if (currentAccount && currentContract) {
       getTodoList();
     }
-  }, [currentAccount, currentTodoList])
+  }, [currentAccount, currentContract])
+
+  useEffect(() => {
+    console.log(currentTodoList)
+  }, [currentTodoList])
 
   return (
     <div>
