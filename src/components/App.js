@@ -41,17 +41,26 @@ const App = memo(() => {
 
   return (
     <div>
-      <p className={styles.accountTitle}>
-        Account address {currentAccount}
-      </p>
+      <div className={styles.accountTitle}>
+        <p>
+          Account address {currentAccount}
+        </p>
+      </div>
 
-      {currentTodoList && (
-        currentTodoList.map((item, index) => (
-          <div key={index}>
-            {item}
-          </div>
-        ))
-      )}
+      <div className={styles.todoListWrapper}>
+        <p>
+          TodoList
+        </p>
+        {currentTodoList && (
+          <ul>
+            {currentTodoList.map((item, index) => (
+              <li key={index}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   )
 })
