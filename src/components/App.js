@@ -1,6 +1,7 @@
 import React, {useEffect, useState, memo} from 'react'
 import Web3 from 'web3';
 import TODO_LIST_ABI from '../../build/contracts/TodoList';
+import styles from './App.module.scss';
 
 const App = memo(() => {
   const [currentAccount, setCurrentAccount] = useState();
@@ -40,7 +41,9 @@ const App = memo(() => {
 
   return (
     <div>
-      Account address {currentAccount}
+      <p className={styles.accountTitle}>
+        Account address {currentAccount}
+      </p>
 
       {currentTodoList && (
         currentTodoList.map((item, index) => (
