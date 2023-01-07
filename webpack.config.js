@@ -1,17 +1,22 @@
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     path: path.resolve(__dirname, './ui_build'),
     filename: 'bundle.js',
   },
   mode: 'development',
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].bundle.css',
+      chunkFilename: '[id].css'
+    }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(dotenv.config().parsed),
     }),
@@ -47,6 +52,9 @@ module.exports = {
           ]
         }
       }]
+    }, {
+      test: /\.css$/i,
+      use: [MiniCssExtractPlugin.loader, "css-loader"],
     }]
   },
   resolve: {
@@ -54,4 +62,4 @@ module.exports = {
       url: false,
     }
   },
-};
+}
