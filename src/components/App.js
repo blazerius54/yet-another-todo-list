@@ -6,7 +6,7 @@ import TODO_LIST_ABI from '../../build/contracts/TodoList';
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState();
   const [currentContract, setCurrentContract] = useState();
-  const [currentTodoList, setCurrentTodoList] = useState();
+  const [currentTodoList, setCurrentTodoList] = useState(null);
 
   const connectToCurrentAccount = async () => {
     const web3 = new Web3(Web3.givenProvider || 'http://localhost:7545');
@@ -46,6 +46,14 @@ const App = () => {
   return (
     <div>
       Account address {currentAccount}
+
+      {currentTodoList && (
+        currentTodoList.map((item, index) => (
+          <div key={index}>
+            {item}
+          </div>
+        ))
+      )}
     </div>
   )
 }
